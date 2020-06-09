@@ -22,14 +22,16 @@ namespace CourseLibrary.API._30
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           services.AddControllers();
+           services.AddControllers(startupActions => {
+               startupActions.ReturnHttpNotAcceptable = true; //This will throw error if a non supported header is requested. If set to false, the api will return the default return type
+           }).AddXmlSerializerFormatters(); //This adds support for xml
              
             services.AddScoped<ICourseLibraryRepository, CourseLibraryRepository>();
 
             services.AddDbContext<CourseLibraryContext>(options =>
             {
                 options.UseSqlServer(
-                    @"Server=DESKTOP-C8CNSOE\\SQLEXPRESS;Database=CourseLibrary.API.30;user id=sa;password=SqlExpress@9;Trusted_Connection=True;MultipleActiveResultSets=true");
+                    @"Server=DESKTOP-C8CNSOE\SQLEXPRESS;Database=CourseLibraryProject30;user id=sa;password=SqlExpress@9;Trusted_Connection=True;MultipleActiveResultSets=true;");
             }); 
         }
 
