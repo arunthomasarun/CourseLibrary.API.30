@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using CourseLibrary.API._30.Helpers;
+using CourseLibrary.API._30.Models;
+using CourseLibrary.API.Entities;
 using CourseLibrary.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,23 +17,41 @@ namespace CourseLibrary.API._30.Controllers
     public class AuthorsController : ControllerBase
     {
         private readonly ICourseLibraryRepository _courseLibraryRepository;
+        private readonly IMapper _mapper;
 
-        public AuthorsController(ICourseLibraryRepository courseLibraryRepository)
+        public AuthorsController(ICourseLibraryRepository courseLibraryRepository, IMapper mapper)
         {
             this._courseLibraryRepository = courseLibraryRepository ?? throw new ArgumentNullException(nameof(courseLibraryRepository));
+            this._mapper = mapper;
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<AuthorsDTO>))]
         public IActionResult GetAuthors()
         {
-            var authors = _courseLibraryRepository.GetAuthors().ToList();
-            return Ok(authors);
+            var authorsFromRepo = _courseLibraryRepository.GetAuthors().ToList();
+            //return Ok(authorsFromRepo);
+
+            var authors = new List<AuthorsDTO>();
+            //foreach (var author in authorsFromRepo)
+            //{
+            //    authors.Add(new AuthorsDTO()
+            //    {
+            //        Id = author.Id,
+            //        Name = $"{author.FirstName} {author.LastName}",
+            //        Age = author.DateOfBirth.GetAge(), //Extension method
+            //        MainCategory = author.MainCategory
+            //    }) ;
+            //}
+
+            //return Ok(authors);
+
+            return Ok(_mapper.Map<IEnumerable<AuthorsDTO>>(authorsFromRepo));
         }
 
         [HttpGet("{authorId:guid}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Author))]
         public IActionResult GetAuthor(Guid authorId)
         {
             var author = _courseLibraryRepository.GetAuthor(authorId);

@@ -1,3 +1,4 @@
+using AutoMapper;
 using CourseLibrary.API.DbContexts;
 using CourseLibrary.API.Services;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace CourseLibrary.API._30
 {
@@ -25,7 +27,9 @@ namespace CourseLibrary.API._30
            services.AddControllers(startupActions => {
                startupActions.ReturnHttpNotAcceptable = true; //This will throw error if a non supported header is requested. If set to false, the api will return the default return type
            }).AddXmlSerializerFormatters(); //This adds support for xml
-             
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddScoped<ICourseLibraryRepository, CourseLibraryRepository>();
 
             services.AddDbContext<CourseLibraryContext>(options =>
