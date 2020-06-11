@@ -60,7 +60,7 @@ namespace CourseLibrary.API._30.Controllers
         }
 
 
-        [HttpGet("{authorId:guid}")]
+        [HttpGet("{authorId:guid}", Name = nameof(GetAuthor))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Author))]
         public IActionResult GetAuthor(Guid authorId)
@@ -70,6 +70,22 @@ namespace CourseLibrary.API._30.Controllers
                 return StatusCode(StatusCodes.Status404NotFound, "Author not found!");
 
             return Ok(author);
+        }
+
+
+        [HttpPost]
+        public IActionResult CreateAuthor(AuthorsForCreationDTO author)
+        {
+            if (author == null)
+                return BadRequest();
+
+            var authToSave = _mapper.Map<Entities.Author>(author);
+
+            _courseLibraryRepository.AddAuthor(authToSave);
+            _courseLibraryRepository.Save();
+
+            var returnDTO = _mapper.Map<Models.AuthorsDTO>(authToSave);
+            return CreatedAtRoute(nameof(GetAuthor), new { authorId = authToSave.Id }, returnDTO);
         }
     }
 }
