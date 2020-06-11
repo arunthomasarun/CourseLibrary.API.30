@@ -32,7 +32,7 @@ namespace CourseLibrary.API._30.Controllers
             var authorsFromRepo = _courseLibraryRepository.GetAuthors().ToList();
             //return Ok(authorsFromRepo);
 
-            var authors = new List<AuthorsDTO>();
+            //var authors = new List<AuthorsDTO>();
             //foreach (var author in authorsFromRepo)
             //{
             //    authors.Add(new AuthorsDTO()
@@ -48,6 +48,17 @@ namespace CourseLibrary.API._30.Controllers
 
             return Ok(_mapper.Map<IEnumerable<AuthorsDTO>>(authorsFromRepo));
         }
+
+
+        [HttpGet("{mainCategory}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<AuthorsDTO>))]
+        public IActionResult GetAuthors([FromQuery] string mainCategory, [FromQuery] string searchQuery)
+        {
+            var authorsFromRepo = _courseLibraryRepository.GetAuthors(mainCategory, searchQuery);
+           
+            return Ok(_mapper.Map<IEnumerable<AuthorsDTO>>(authorsFromRepo));
+        }
+
 
         [HttpGet("{authorId:guid}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
