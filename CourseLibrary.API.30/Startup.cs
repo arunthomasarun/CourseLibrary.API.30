@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.IO;
+using System.Reflection;
 
 namespace CourseLibrary.API._30
 {
@@ -45,7 +47,14 @@ namespace CourseLibrary.API._30
                         Title = "Course Library API",
                         Version = "1"
                     });
+
+                var xmlFileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlFullPath = Path.Combine(AppContext.BaseDirectory, xmlFileName);
+                setupAction.IncludeXmlComments(xmlFullPath);
             });
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

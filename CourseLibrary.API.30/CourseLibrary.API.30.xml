@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CourseLibrary.API.30</name>
+    </assembly>
+    <members>
+        <member name="M:CourseLibrary.API._30.Controllers.WeatherForecastController.Get">
+            <summary>
+            Returns weather forecast
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

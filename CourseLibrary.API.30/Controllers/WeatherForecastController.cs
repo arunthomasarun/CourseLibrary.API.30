@@ -24,8 +24,13 @@ namespace CourseLibrary.API._30.Controllers
             _logger = logger;
         }
 
+
+        /// <summary>
+        /// Returns weather forecast
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<WeatherForecast>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<WeatherForecast>))]        
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
