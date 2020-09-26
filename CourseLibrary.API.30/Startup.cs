@@ -36,7 +36,16 @@ namespace CourseLibrary.API._30
             {
                 options.UseSqlServer(
                     @"Server=DESKTOP-C8CNSOE\SQLEXPRESS;Database=CourseLibraryProject30;user id=sa;password=SqlExpress@9;Trusted_Connection=True;MultipleActiveResultSets=true;");
-            }); 
+            });
+
+            services.AddSwaggerGen(setupAction =>
+            {
+                setupAction.SwaggerDoc("CourseLibraryAPISpecification", 
+                    new Microsoft.OpenApi.Models.OpenApiInfo { 
+                        Title = "Course Library API",
+                        Version = "1"
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +59,8 @@ namespace CourseLibrary.API._30
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
 
             app.UseEndpoints(endpoints =>
             {
