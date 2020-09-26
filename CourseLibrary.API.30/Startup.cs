@@ -61,6 +61,11 @@ namespace CourseLibrary.API._30
             app.UseAuthorization();
 
             app.UseSwagger();
+            app.UseSwaggerUI(setupAction =>
+            {
+                setupAction.SwaggerEndpoint("/swagger/CourseLibraryAPISpecification/swagger.json", "Library API");
+                setupAction.RoutePrefix = ""; //Add swagger to the root of url e.g http://localhost:51044/index.html
+            });
 
             app.UseEndpoints(endpoints =>
             {
